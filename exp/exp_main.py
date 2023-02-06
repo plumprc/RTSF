@@ -7,7 +7,7 @@ import torch.nn as nn
 import torch.optim as optim
 from data_provider.data_factory import data_provider
 from exp.exp_basic import Exp_Basic
-from models import Linear
+from models import Flow
 from utils.tools import EarlyStopping, adjust_learning_rate, visual
 from utils.metrics import metric
 
@@ -19,7 +19,7 @@ class Exp_Main(Exp_Basic):
 
     def _build_model(self):
         model_dict = {
-            'Linear': Linear
+            'Flow': Flow
         }
         model = model_dict[self.args.model].Model(self.args).float()
         
@@ -41,8 +41,8 @@ class Exp_Main(Exp_Basic):
             for _, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(vali_loader):
                 batch_x = batch_x.float().to(self.device)
                 batch_y = batch_y.float()
-                batch_x_mark = batch_x_mark.float().to(self.device)
-                batch_y_mark = batch_y_mark.float().to(self.device)
+                # batch_x_mark = batch_x_mark.float().to(self.device)
+                # batch_y_mark = batch_y_mark.float().to(self.device)
                 
                 if self.args.use_amp:
                     with torch.cuda.amp.autocast():
@@ -91,8 +91,8 @@ class Exp_Main(Exp_Basic):
 
                 batch_x = batch_x.float().to(self.device)
                 batch_y = batch_y.float().to(self.device)
-                batch_x_mark = batch_x_mark.float().to(self.device)
-                batch_y_mark = batch_y_mark.float().to(self.device)
+                # batch_x_mark = batch_x_mark.float().to(self.device)
+                # batch_y_mark = batch_y_mark.float().to(self.device)
 
                 if self.args.use_amp:
                     with torch.cuda.amp.autocast():
@@ -163,8 +163,8 @@ class Exp_Main(Exp_Basic):
             for idx, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(test_loader):
                 batch_x = batch_x.float().to(self.device)
                 batch_y = batch_y.float().to(self.device)
-                batch_x_mark = batch_x_mark.float().to(self.device)
-                batch_y_mark = batch_y_mark.float().to(self.device)
+                # batch_x_mark = batch_x_mark.float().to(self.device)
+                # batch_y_mark = batch_y_mark.float().to(self.device)
 
                 if self.args.use_amp:
                     with torch.cuda.amp.autocast():
@@ -215,8 +215,8 @@ class Exp_Main(Exp_Basic):
             for _, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(pred_loader):
                 batch_x = batch_x.float().to(self.device)
                 batch_y = batch_y.float()
-                batch_x_mark = batch_x_mark.float().to(self.device)
-                batch_y_mark = batch_y_mark.float().to(self.device)
+                # batch_x_mark = batch_x_mark.float().to(self.device)
+                # batch_y_mark = batch_y_mark.float().to(self.device)
 
                 if self.args.use_amp:
                     with torch.cuda.amp.autocast():
