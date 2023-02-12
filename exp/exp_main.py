@@ -40,21 +40,17 @@ class Exp_Main(Exp_Basic):
         with torch.no_grad():
             for _, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(vali_loader):
                 batch_x = batch_x.float().to(self.device)
-                batch_y = batch_y.float()
+                batch_y = batch_y.float().to(self.device)
                 # batch_x_mark = batch_x_mark.float().to(self.device)
                 # batch_y_mark = batch_y_mark.float().to(self.device)
                 
                 if self.args.use_amp:
                     with torch.cuda.amp.autocast():
-                        outputs = self.model(batch_x)
+                        _, loss = self.model(batch_x, batch_y)
 
-                else: outputs = self.model(batch_x)
+                else: _, loss = self.model(batch_x, batch_y)
 
-                f_dim = -1 if self.args.features == 'MS' else 0
-                outputs = outputs[:, -self.args.pred_len:, f_dim:]
-                batch_y = batch_y[:, -self.args.pred_len:, f_dim:].to(self.device)
-                loss = criterion(outputs.detach().cpu(), batch_y.detach().cpu())
-                total_loss.append(loss)
+                total_loss.append(loss.detach().cpu())
 
         total_loss = np.average(total_loss)
         self.model.train()
@@ -96,18 +92,10 @@ class Exp_Main(Exp_Basic):
 
                 if self.args.use_amp:
                     with torch.cuda.amp.autocast():
-                        outputs = self.model(batch_x)
-                        f_dim = -1 if self.args.features == 'MS' else 0
-                        outputs = outputs[:, -self.args.pred_len:, f_dim:]
-                        batch_y = batch_y[:, -self.args.pred_len:, f_dim:].to(self.device)
-                        loss = criterion(outputs, batch_y)
+                        _, loss = self.model(batch_x, batch_y)
                         train_loss.append(loss.item())
                 else:
-                    outputs = self.model(batch_x)
-                    f_dim = -1 if self.args.features == 'MS' else 0
-                    outputs = outputs[:, -self.args.pred_len:, f_dim:]
-                    batch_y = batch_y[:, -self.args.pred_len:, f_dim:].to(self.device)
-                    loss = criterion(outputs, batch_y)
+                    _, loss = self.model(batch_x, batch_y)
                     train_loss.append(loss.item())
 
                 if (i + 1) % 100 == 0:
@@ -168,14 +156,10 @@ class Exp_Main(Exp_Basic):
 
                 if self.args.use_amp:
                     with torch.cuda.amp.autocast():
-                        outputs = self.model(batch_x)
+                        outputs, _ = self.model(batch_x, batch_y)
 
-                else: outputs = self.model(batch_x)
+                else: outputs, _ = self.model(batch_x, batch_y)
 
-                f_dim = -1 if self.args.features == 'MS' else 0
-                outputs = outputs[:, -self.args.pred_len:, f_dim:]
-                batch_y = batch_y[:, -self.args.pred_len:, f_dim:].to(self.device)
-                
                 pred = outputs.detach().cpu().numpy()
                 true = batch_y.detach().cpu().numpy()
                 preds.append(pred)
@@ -220,9 +204,9 @@ class Exp_Main(Exp_Basic):
 
                 if self.args.use_amp:
                     with torch.cuda.amp.autocast():
-                        outputs = self.model(batch_x)
+                        outputs, _ = self.model(batch_x, batch_y)
 
-                else: outputs = self.model(batch_x)
+                else: outputs, _ = self.model(batch_x, batch_y)
 
                 preds.append(outputs.detach().cpu().numpy())
 

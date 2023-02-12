@@ -23,7 +23,7 @@ if __name__ == '__main__':
     parser.add_argument('--root_path', type=str, default='./dataset/', help='root path of the data file')
     parser.add_argument('--data_path', type=str, default='ETTh1.csv', help='data file')
     parser.add_argument('--features', type=str, default='M',
-                        help='forecasting task, options:[M, S, MS]; M:multivariate predict multivariate, S:univariate predict univariate, MS:multivariate predict univariate')
+                        help='forecasting task, options:[M, S]; M:multivariate predict multivariate, S:univariate predict univariate')
     parser.add_argument('--target', type=str, default='OT', help='target feature in S or MS task')
     parser.add_argument('--freq', type=str, default='h',
                         help='freq for time features encoding, options:[s:secondly, t:minutely, h:hourly, d:daily, b:business days, w:weekly, m:monthly], you can also use more detailed freq like 15min or 3h')
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     parser.add_argument('--individual', action='store_true', default=False, help='DLinear: a linear layer for each variate(channel) individually')
     parser.add_argument('--seg', type=int, default=20, help='prediction plot segments')
 
-    # model 
+    # model
     parser.add_argument('--channel', type=int, default=7, help='num of channel')
     parser.add_argument('--d_model', type=int, default=512, help='dimension of model')
     parser.add_argument('--layers', type=int, default=2, help='num of layers')
@@ -43,7 +43,6 @@ if __name__ == '__main__':
     parser.add_argument('--do_predict', action='store_true', help='whether to predict unseen future data')
     parser.add_argument('--norm', action='store_true', help='whether to apply layer norm')
     parser.add_argument('--rev', action='store_true', help='whether to apply RevIN')
-    parser.add_argument('--refine', action='store_true', help='whether to refine the prediction')
 
     # optimization
     parser.add_argument('--num_workers', type=int, default=10, help='data loader num workers')
