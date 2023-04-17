@@ -15,7 +15,7 @@ class Model(nn.Module):
         # )
 
     def forward_loss(self, pred, true):
-        return F.mse_loss(pred, true) + 0.1 * torch.norm(self.transport)
+        return F.mse_loss(pred, true) # + 0.1 * torch.norm(self.transport)
 
     def forward(self, x, y):
         # x: [B, L, D]

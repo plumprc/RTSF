@@ -15,8 +15,8 @@ if __name__ == '__main__':
 
     # basic config
     parser.add_argument('--is_training', type=int, required=True, default=1, help='status')
-    parser.add_argument('--model', type=str, required=True, default='Flow',
-                        help='model name, options: [Flow]')
+    parser.add_argument('--model', type=str, required=True, default='Affine',
+                        help='model name, options: [Affine, Linear, TimeFlow]')
 
     # data loader
     parser.add_argument('--data', type=str, required=True, default='ETTh1', help='dataset type')
