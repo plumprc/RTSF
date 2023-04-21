@@ -16,7 +16,7 @@ if __name__ == '__main__':
     # basic config
     parser.add_argument('--is_training', type=int, required=True, default=1, help='status')
     parser.add_argument('--model', type=str, required=True, default='Affine',
-                        help='model name, options: [Affine, Linear, TimeFlow]')
+                        help='model name, options: [Affine, Linear, STD, TimeFlow]')
 
     # data loader
     parser.add_argument('--data', type=str, required=True, default='ETTh1', help='dataset type')
@@ -41,7 +41,6 @@ if __name__ == '__main__':
     parser.add_argument('--layers', type=int, default=2, help='num of layers')
     parser.add_argument('--embed', type=str, default='timeF', help='time features encoding, options:[timeF, fixed, learned]')
     parser.add_argument('--do_predict', action='store_true', help='whether to predict unseen future data')
-    parser.add_argument('--norm', action='store_true', help='whether to apply layer norm')
     parser.add_argument('--rev', action='store_true', help='whether to apply RevIN')
 
     # optimization
