@@ -14,6 +14,7 @@ class Model(nn.Module):
         #    nn.GELU(),
         #    nn.Linear(configs.d_model, configs.pred_len)
         # )
+        self.dropout = nn.Dropout(configs.drop)
         self.rev = RevIN(configs.channel) if configs.rev else None
 
     def forward_loss(self, pred, true):
@@ -23,6 +24,7 @@ class Model(nn.Module):
         # x: [B, L, D]
         x = self.rev(x, 'norm') if self.rev else x
         # x = torch.einsum('bij,ik->bkj', x, self.transport)
+        self.transport = self.dropout(self.transport)
         pred = torch.matmul(self.transport.T, x)
         # y += self.bias(x.transpose(1, 2)).transpose(1, 2)
         pred += self.bias
