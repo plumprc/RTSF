@@ -3,9 +3,11 @@ This is a simplified documentation of [Revisiting Long-term Time Series Forecast
 
 ## Linear Mapping on LTSF
 
-**Problem Definition.** Given a historical time series observation $\mathbf{X}=[\boldsymbol{x} _1,\boldsymbol{x}_2,\dots,\boldsymbol{x}_n]\in\mathbb{R}^{c\times n}$ with $c$ channels and $n$ time steps, forecasting tasks aim to predict the next $m$ time steps $\mathbf{Y}=[\boldsymbol{x}_{n+1},\boldsymbol{x}_{n+2},\dots,\boldsymbol{x}_{n+m}]\in\mathbb{R}^{c\times m}$ where $m$ denotes forecasting horizon. We need to learn a map $\mathcal{F}:\mathbf{X}^{c\times n}\mapsto\mathbf{Y}^{c\times m}$ where $\mathbf{X}$ and $\mathbf{Y}$ are consecutive in the original time series data. Consider a single linear layer as
+**Problem Definition.** Given a historical time series observation $\mathbf{X}=[\boldsymbol{x} _1,\boldsymbol{x} _2,\dots,\boldsymbol{x} _n]\in\mathbb{R}^{c\times n}$ with $c$ channels and $n$ time steps, forecasting tasks aim to predict the next $m$ time steps $\mathbf{Y}=[\boldsymbol{x}_ {n+1},\boldsymbol{x} _{n+2},\dots,\boldsymbol{x} _{n+m}]\in\mathbb{R}^{c\times m}$ where $m$ denotes forecasting horizon. We need to learn a map $\mathcal{F}:\mathbf{X}^{c\times n}\mapsto\mathbf{Y}^{c\times m}$ where $\mathbf{X}$ and $\mathbf{Y}$ are consecutive in the original time series data. Consider a single linear layer as
 
-$$[\boldsymbol{x} _1, \boldsymbol{x}_2, \dots, \boldsymbol{x}_n]\cdot\mathbf{W}+\mathbf{b}=[\boldsymbol{x}_{n+1}, \boldsymbol{x}_{n+2}, \dots, \boldsymbol{x}_{n+m}],$$
+```math
+[\boldsymbol{x}_1, \boldsymbol{x}_2, \dots, \boldsymbol{x}_n]\cdot\mathbf{W}+\mathbf{b}=[\boldsymbol{x}_{n+1}, \boldsymbol{x}_{n+2}, \dots, \boldsymbol{x}_{n+m}],
+```
 
 where $\mathbf{W}\in\mathbb{R}^{n\times m}$ is the weight, also termed as the transition matrix, and $\mathbf{b}\in\mathbb{R}^{1\times m}$ is the bias. The following theorems depicts the role of linear mapping in long-term time series forecasting. See the original paper for the complete proof.
 
