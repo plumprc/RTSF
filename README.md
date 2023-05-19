@@ -3,9 +3,9 @@ This is a simplified documentation of [Revisiting Long-term Time Series Forecast
 
 ## Linear Mapping on LTSF
 
-**Problem Definition.** Given a historical time series observation $\mathbf{X}=[\boldsymbol{x}_1,\boldsymbol{x}_2,\dots,\boldsymbol{x}_n]\in\mathbb{R}^{c\times n}$ with $c$ channels and $n$ time steps, forecasting tasks aim to predict the next $m$ time steps $\mathbf{Y}=[\boldsymbol{x}_{n+1},\boldsymbol{x}_{n+2},\dots,\boldsymbol{x}_{n+m}]\in\mathbb{R}^{c\times m}$ where $m$ denotes forecasting horizon. We need to learn a map $\mathcal{F}:\mathbf{X}^{c\times n}\mapsto\mathbf{Y}^{c\times m}$ where $\mathbf{X}$ and $\mathbf{Y}$ are consecutive in the original time series data. Consider a single linear layer as
+**Problem Definition.** Given a historical time series observation $\mathbf{X}=[\boldsymbol{x}_1,\boldsymbol{x}_2,\dots,\boldsymbol{x}_n]\in\mathbb{R}^{c\times n}$ with $c$ channels and $n$ time steps, forecasting tasks aim to predict the next $m$ time steps $\mathbf{Y}=[\boldsymbol{x}_ {n+1},\boldsymbol{x}_{n+2},\dots,\boldsymbol{x}_ {n+m}]\in\mathbb{R}^{c\times m}$ where $m$ denotes forecasting horizon. We need to learn a map $\mathcal{F}:\mathbf{X}^{c\times n}\mapsto\mathbf{Y}^{c\times m}$ where $\mathbf{X}$ and $\mathbf{Y}$ are consecutive in the original time series data. Consider a single linear layer as
 
-$$[\boldsymbol{x}_1, \boldsymbol{x}_2, \dots, \boldsymbol{x}_n]\cdot\mathbf{W}+\mathbf{b}=[\boldsymbol{x}_{n+1}, \boldsymbol{x}_{n+2}, \dots, \boldsymbol{x}_{n+m}],$$
+$$[\boldsymbol{x}_1, \boldsymbol{x}_2, \dots, \boldsymbol{x}_n]\cdot\mathbf{W}+\mathbf{b}=[\boldsymbol{x}_ {n+1}, \boldsymbol{x}_ {n+2}, \dots, \boldsymbol{x}_ {n+m}],$$
 
 where $\mathbf{W}\in\mathbb{R}^{n\times m}$ is the weight, also termed as the transition matrix, and $\mathbf{b}\in\mathbb{R}^{1\times m}$ is the bias. The following theorems depicts the role of linear mapping in long-term time series forecasting. See the original paper for the complete proof.
 
@@ -23,7 +23,7 @@ $$\mathbf{W}_{ij}^{(k)}=
 \begin{cases}
   a^k, & \text{if $i=n-kp+(j\bmod{p})$} \\
   0, & \text{otherwise} \\
-\end{cases},1\leq k\in\mathbb{Z}\leq\lfloor n/p\rfloor,b_i=\sum_{l=0}^{k-1}a^l\cdot c.$$
+\end{cases},1\leq k\in\mathbb{Z}\leq\lfloor n/p\rfloor,b_i=\sum_ {l=0}^ {k-1}a^l\cdot c.$$
 
 **Theorem 2.** Let $x(t)=s(t)+f(t)$ where $s(t)$ is a seasonal signal with period $p$ and $f(t)$ satisfies K-Lipschitz continuous. Then there exists a linear model as Equation~\ref{eq:2} with input horizon size $n=p+\tau,\tau\geq0$ such that $\vert x(n+j)-\hat{x}(n+j)\vert\leq K(p+j), j=1,\dots,m$.
 
