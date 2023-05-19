@@ -7,7 +7,7 @@ import torch.nn as nn
 import torch.optim as optim
 from data_provider.data_factory import data_provider
 from exp.exp_basic import Exp_Basic
-from models import Affine, TimeFlow, Linear, STD
+from models import RLinear, RMLP, STD
 from utils.tools import EarlyStopping, adjust_learning_rate, visual
 from utils.metrics import metric
 
@@ -19,9 +19,8 @@ class Exp_Main(Exp_Basic):
 
     def _build_model(self):
         model_dict = {
-            'Affine': Affine,
-            'Linear': Linear,
-            'TimeFlow': TimeFlow,
+            'RLinear': RLinear,
+            'RMLP': RMLP,
             'STD': STD
         }
         model = model_dict[self.args.model].Model(self.args).float()

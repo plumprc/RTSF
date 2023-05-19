@@ -38,30 +38,30 @@ class series_decomp(nn.Module):
 
 
 class Model(nn.Module):
-    """
-    Decomposition-Linear
-    """
     def __init__(self, configs):
         super(Model, self).__init__()
 
-        # Decompsition Kernel Size
+        # the size of sliding window in moving average
         kernel_size = 25
         self.decompsition = series_decomp(kernel_size)
-        self.Linear_Seasonal = nn.Linear(configs.seq_len, configs.pred_len)
-        self.Linear_Trend = nn.Linear(configs.seq_len, configs.pred_len)
-        self.rev = RevIN(configs.channel)
+        self.seasonal = nn.Linear(configs.seq_len, configs.pred_len)
+        self.trend = nn.Sequential(
+            nn.Linear(configs.seq_len, configs.d_model),
+            nn.ReLU(),
+            nn.Linear(configs.d_model, configs.pred_len)
+        )
+        self.rev = RevIN(configs.channel) if configs.rev else None
 
     def forward_loss(self, pred, true):
         return F.mse_loss(pred, true)
 
     def forward(self, x, y):
-        # x: [Batch, Input length, Channel]
-        seasonal, trend = self.decompsition(x)
-        
-        trend = self.rev(trend, 'norm')
-        seasonal_output = self.Linear_Seasonal(seasonal.transpose(1, 2)).transpose(1, 2)
-        trend_output = self.Linear_Trend(trend.transpose(1, 2)).transpose(1, 2)
-        trend_output = self.rev(trend_output, 'denorm')
-        pred = seasonal_output + trend_output
+        # x: [B, L, D]
+        seasonality, trend = self.decompsition(x)
+        trend = self.rev(trend, 'norm') if self.rev else trend
+        seasonality = self.seasonal(seasonality.transpose(1, 2)).seasonality(1, 2)
+        trend = self.trend(trend.transpose(1, 2)).transpose(1, 2)
+        trend = self.rev(trend, 'denorm') if self.ref else trend
+        pred = seasonality + trend
         
         return pred, self.forward_loss(pred, y)
