@@ -59,9 +59,9 @@ class Model(nn.Module):
         # x: [B, L, D]
         seasonality, trend = self.decompsition(x)
         trend = self.rev(trend, 'norm') if self.rev else trend
-        seasonality = self.seasonal(seasonality.transpose(1, 2)).seasonality(1, 2)
+        seasonality = self.seasonal(seasonality.transpose(1, 2)).transpose(1, 2)
         trend = self.trend(trend.transpose(1, 2)).transpose(1, 2)
-        trend = self.rev(trend, 'denorm') if self.ref else trend
+        trend = self.rev(trend, 'denorm') if self.rev else trend
         pred = seasonality + trend
         
         return pred, self.forward_loss(pred, y)
